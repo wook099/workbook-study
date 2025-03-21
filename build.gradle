@@ -44,9 +44,34 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+def querydslDir = "src/main/generated"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean.doLast {
+	file(querydslDir).deleteDir()
+}
+
+clean {
+	delete fileTree(dir: 'src/main/generated', include: '**/*.java')
+}
+tasks.withType(JavaCompile) {
+	options.compilerArgs += [
+			'--add-opens',
+			'java.base/java.lang=ALL-UNNAMED',
+			'--add-opens',
+			'java.base/java.util=ALL-UNNAMED'
+	]
 }
