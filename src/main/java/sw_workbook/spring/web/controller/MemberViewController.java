@@ -1,6 +1,7 @@
 package sw_workbook.spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,5 +54,6 @@ public class MemberViewController {
             return "signup";
         }
     }
+
 
 }
