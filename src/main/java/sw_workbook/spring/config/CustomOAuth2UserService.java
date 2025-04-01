@@ -1,6 +1,7 @@
 package sw_workbook.spring.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -9,6 +10,8 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import sw_workbook.spring.Repository.MemberRepository;
+import sw_workbook.spring.config.jwt.JwtGenerator;
+import sw_workbook.spring.config.jwt.JwtToken;
 import sw_workbook.spring.domain.Member;
 import sw_workbook.spring.domain.enums.Gender;
 import sw_workbook.spring.domain.enums.Role;
@@ -17,12 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {//DefaultOAuth2UserService<< OAuth2 로그인시 사용자 정보 가져옴
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final JwtGenerator jwtGenerator; // JWT 발급기 추가
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
 
@@ -39,10 +43,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {//Default
         // 사용자 정보 저장 또는 업데이트
         Member member = saveOrUpdateUser(email, nickname);
 
+        JwtToken jwtToken = jwtGenerator.generateToken(member.getId(), member.getRole());
+
+        log.info("Generated Access Token: {}", jwtToken.getAccessToken());
+
+
         // 이메일을 Principal로 사용하기 위해 attributes 수정
         Map<String, Object> modifiedAttributes = new HashMap<>(attributes);
         modifiedAttributes.put("email", email);
-
+        modifiedAttributes.put("token", jwtToken.getAccessToken());
         return new DefaultOAuth2User(
                 oAuth2User.getAuthorities(),
                 modifiedAttributes,
