@@ -1,0 +1,39 @@
+2025-04-01T23:18:55.180+09:00  INFO 1584 --- [main] sw_workbook.spring.Application           : Starting Application using Java 17.0.10 with PID 1584 (C:\스프링\umc-sw\build\classes\java\main started by 우경 in C:\스프링\umc-sw)
+2025-04-01T23:18:55.185+09:00 DEBUG 1584 --- [main] sw_workbook.spring.Application           : Running with Spring Boot v3.4.3, Spring v6.2.3
+2025-04-01T23:18:55.189+09:00  INFO 1584 --- [main] sw_workbook.spring.Application           : No active profile set, falling back to 1 default profile: "default"
+2025-04-01T23:18:56.409+09:00  INFO 1584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-01T23:18:56.558+09:00  INFO 1584 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 132 ms. Found 2 JPA repository interfaces.
+2025-04-01T23:18:57.384+09:00  INFO 1584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-04-01T23:18:57.406+09:00  INFO 1584 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-01T23:18:57.407+09:00  INFO 1584 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-01T23:18:57.532+09:00  INFO 1584 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-01T23:18:57.532+09:00  INFO 1584 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2272 ms
+2025-04-01T23:18:57.789+09:00  INFO 1584 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-01T23:18:57.901+09:00  INFO 1584 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-04-01T23:18:57.985+09:00  INFO 1584 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-01T23:18:58.509+09:00  INFO 1584 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-01T23:18:58.565+09:00  INFO 1584 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-01T23:18:59.045+09:00  INFO 1584 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@210d3a42
+2025-04-01T23:18:59.049+09:00  INFO 1584 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-01T23:18:59.154+09:00  WARN 1584 --- [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-01T23:18:59.194+09:00  INFO 1584 --- [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.36
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-01T23:19:01.196+09:00  INFO 1584 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-01T23:19:01.369+09:00  INFO 1584 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-01T23:19:01.916+09:00  INFO 1584 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-01T23:19:02.668+09:00 DEBUG 1584 --- [main] s.spring.config.jwt.JwtProvider          : Secret key from application.yml: 0SE/1s6T59aT75/Du/QMFTSLUTy+iU1eSlf7Sv3G+ZI=
+2025-04-01T23:19:02.864+09:00  WARN 1584 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-01T23:19:02.899+09:00  INFO 1584 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-04-01T23:19:03.105+09:00 DEBUG 1584 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 10 mappings in 'requestMappingHandlerMapping'
+2025-04-01T23:19:03.240+09:00 DEBUG 1584 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-01T23:19:03.260+09:00  WARN 1584 --- [main] thorizationManagerRequestMatcherRegistry : One of the patterns in [/, /home, /signup, /members/signup, api/hello, /css/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2025-04-01T23:19:03.494+09:00 DEBUG 1584 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-01T23:19:03.620+09:00 DEBUG 1584 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-01T23:19:03.832+09:00  INFO 1584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-04-01T23:19:03.847+09:00  INFO 1584 --- [main] sw_workbook.spring.Application           : Started Application in 9.53 seconds (process running for 10.576)
