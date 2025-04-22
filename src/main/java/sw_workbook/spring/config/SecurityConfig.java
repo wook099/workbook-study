@@ -16,6 +16,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import sw_workbook.spring.config.jwt.JwtAuthenticationFilter;
 import sw_workbook.spring.config.jwt.JwtProvider;
+import sw_workbook.spring.config.oauth.CustomAuthenticationEntryPoint;
+import sw_workbook.spring.config.oauth.OAuth2LoginSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
@@ -24,27 +26,8 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable()) // JWT 사용 시 CSRF 비활성화
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 끄기
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/", "/home", "/signup", "/members/signup", "api/hello","/css/**").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .anyRequest().authenticated()
-//                )
-//                .oauth2Login(oauth2 -> oauth2
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/home",true)
-//                        .permitAll()
-//                )
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
-//
-//
-//
-//        return http.build();
-//    }
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -55,9 +38,15 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))//세션비활성화
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/signup", "/members/signup", "api/hello","/css/**").permitAll()
+                        .requestMatchers("/", "/home","/login", "login/oauth2/**","/signup","/oauth2/**", "/members/signup", "api/hello","/css/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+//                        .defaultSuccessUrl("/home",true)
+                        .successHandler(oAuth2LoginSuccessHandler) //
+                        .permitAll()
+                )
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
@@ -83,4 +72,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

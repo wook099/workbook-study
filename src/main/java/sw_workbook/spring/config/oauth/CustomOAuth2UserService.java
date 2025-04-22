@@ -1,4 +1,4 @@
-package sw_workbook.spring.config;
+package sw_workbook.spring.config.oauth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import sw_workbook.spring.Repository.MemberRepository;
 import sw_workbook.spring.config.jwt.JwtGenerator;
 import sw_workbook.spring.config.jwt.JwtToken;
+import sw_workbook.spring.config.jwt.Repository.RefreshTokenRepository;
+import sw_workbook.spring.config.jwt.entity.RefreshToken;
 import sw_workbook.spring.domain.Member;
 import sw_workbook.spring.domain.enums.Gender;
 import sw_workbook.spring.domain.enums.Role;
@@ -27,6 +29,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {//Default
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator; // JWT 발급기 추가
+    private final RefreshTokenRepository refreshTokenRepository;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
 
@@ -43,15 +46,34 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {//Default
         // 사용자 정보 저장 또는 업데이트
         Member member = saveOrUpdateUser(email, nickname);
 
-        JwtToken jwtToken = jwtGenerator.generateToken(member.getId(), member.getRole());
-
-        log.info("Generated Access Token: {}", jwtToken.getAccessToken());
+//        JwtToken jwtToken = jwtGenerator.generateToken(member, member.getRole());
+//
+//        refreshTokenRepository.findByUsername(member.getEmail())
+//                .ifPresentOrElse(
+//                        existing -> {
+//                            RefreshToken updated = RefreshToken.builder()
+//                                    .id(existing.getId())  // ID가 존재하면 JPA가 덮어쓰기로 인식하고 UPDATE함!!
+//                                    .username(member.getEmail())
+//                                    .refreshToken(jwtToken.getRefreshToken())
+//                                    .build();
+//                            refreshTokenRepository.save(updated);
+//                        },
+//                        () -> {
+//                            RefreshToken newToken = RefreshToken.builder()
+//                                    .username(member.getEmail())
+//                                    .refreshToken(jwtToken.getRefreshToken())
+//                                    .build();
+//                            refreshTokenRepository.save(newToken);
+//                        }
+//                );
+//
+//        log.info("Generated Access Token: {}", jwtToken.getAccessToken());
 
 
         // 이메일을 Principal로 사용하기 위해 attributes 수정
         Map<String, Object> modifiedAttributes = new HashMap<>(attributes);
         modifiedAttributes.put("email", email);
-        modifiedAttributes.put("token", jwtToken.getAccessToken());
+//        modifiedAttributes.put("token", jwtToken.getAccessToken());
         return new DefaultOAuth2User(
                 oAuth2User.getAuthorities(),
                 modifiedAttributes,

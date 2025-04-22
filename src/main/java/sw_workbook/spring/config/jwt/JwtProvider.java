@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import sw_workbook.spring.config.jwt.exception.JwtAuthenticationException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -53,16 +54,33 @@ public class JwtProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.warn("Invalid JWT Token", e);
+            throw new JwtAuthenticationException("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             log.warn("Expired JWT Token", e);
+            throw new JwtAuthenticationException("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
             log.warn("Unsupported JWT Token", e);
+            throw new JwtAuthenticationException("지원하지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
             log.warn("JWT claims string is empty.", e);
+            throw new JwtAuthenticationException("JWT 토큰이 잘못되었습니다.");
         }
-        return false;
+       // return false;
     }
-
+    public void validateRefreshToken(String refreshToken) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(refreshToken);
+        } catch (ExpiredJwtException e) {
+            log.warn("Expired Refresh Token", e);
+            throw new JwtAuthenticationException("만료된 리프레시 토큰입니다.");
+        } catch (JwtException e) {
+            log.warn("Invalid Refresh Token", e);
+            throw new JwtAuthenticationException("유효하지 않은 리프레시 토큰입니다.");
+        }
+    }
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder()

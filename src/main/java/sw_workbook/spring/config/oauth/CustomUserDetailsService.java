@@ -1,4 +1,4 @@
-package sw_workbook.spring.config;
+package sw_workbook.spring.config.oauth;
 
 
 import lombok.RequiredArgsConstructor;
