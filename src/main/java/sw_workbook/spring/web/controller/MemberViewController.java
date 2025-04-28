@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sw_workbook.spring.apiPayload.ApiResponse;
 import sw_workbook.spring.config.jwt.Dto.LogoutRequest;
-import sw_workbook.spring.config.jwt.Dto.RefreshTokenRequest;
 import sw_workbook.spring.config.jwt.JwtGenerator;
 import sw_workbook.spring.config.jwt.JwtProvider;
 import sw_workbook.spring.config.jwt.Repository.RefreshTokenRepository;
@@ -37,10 +36,36 @@ public class MemberViewController {
         return "home";
     }
 
+//    @GetMapping("/home")
+//    public String home(Model model,  Authentication authentication) {
+//
+//        String provider = "기타";
+//        String userName = "사용자";
+//
+//        if (authentication != null) {
+//            Object principal = authentication.getPrincipal();
+//
+//            if (principal instanceof OAuth2User oAuth2User) {
+//                if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+//                    provider = oauthToken.getAuthorizedClientRegistrationId(); // "google", "kakao"
+//                }
+//                userName = oAuth2User.getAttribute("name"); // 구글, 카카오 로그인 이름 (이름이 없으면 다른 값 뽑아야 할 수도 있음)
+//            } else if (principal instanceof org.springframework.security.core.userdetails.User user) {
+//                provider = "일반"; // 폼 로그인
+//                userName = user.getUsername();
+//            }
+//        }
+//        model.addAttribute("provider", provider);
+//        model.addAttribute("userName", userName);
+//
+//        return "home";
+//    }
+
     @GetMapping("/admin")
     public String admin() {
         return "admin";
     }
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";
@@ -94,10 +119,10 @@ public class MemberViewController {
         newRefreshCookie.setPath("/");// 쿠키가 허용한 url경로
         newRefreshCookie.setMaxAge(7 * 24 * 60 * 60); // 7일 refreshtoken과 만료시점을 맞춤
 
-        response.setHeader("Set-Cookie",
-                "refreshToken=" + refreshToken +
-                        "; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=" + (7 * 24 * 60 * 60)
-        );
+//        response.setHeader("Set-Cookie",
+//                "refreshToken=" + refreshToken +
+//                        "; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=" + (7 * 24 * 60 * 60)
+//        );
         response.addCookie(newRefreshCookie);
 
 
