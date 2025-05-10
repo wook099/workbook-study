@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>소셜 로그인 테스트</title>
+</head>
+<body>
+<h1>로그인 테스트</h1>
+<button onclick="socialLogin()">카카오로 로그인</button>
+<pre id="result"></pre>
+
+<script>
+    function socialLogin() {
+        window.location.href = '/oauth2/authorization/kakao';
+    }
+
+    // 로그인 이후 리디렉트되면 accessToken을 보여주기 위한 처리
+    window.onload = () => {
+        // 로그인 성공 후 백엔드가 JSON 응답을 내려줄 경우 fetch로 받는 건 어려우니,
+        // 백엔드에서 토큰을 localStorage에 넣거나, 직접 JSON을 브라우저 화면에 출력하도록 처리하는 게 더 좋음
+        // 지금은 테스트 목적이니까 단순하게 처리
+    };
+</script>
+</body>
+</html>
